@@ -1,0 +1,9 @@
+[package]
+name = "fourcc"
+version = "0.1.0"
+authors = ["StealthOfKing <sok@monocyte.host>", "tRuTrIx <trutrix@monocyte.host>"]
+edition = "2021"
+license = "All-Rights-Reserved"
+description = "Implementation of FourCC struct."
+
+[dependencies]
