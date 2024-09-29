@@ -1,8 +1,8 @@
-# rust-fourcc
+# fourcc
 
 `fourcc` is an API for working with FourCC values. It provides two types, `TypeId` and `FourCC`.
 
-## `Usage`
+## Usage
 
 `TypeId` is an alias for `[u8;4]`, this type works well with existing Rust traits for byte arrays and should be preferred.
 

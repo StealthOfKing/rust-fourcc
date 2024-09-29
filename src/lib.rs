@@ -13,7 +13,7 @@ pub type TypeId = [u8;4];
 /// `HashMap`.
 ///
 /// [FourCC]: https://en.wikipedia.org/wiki/FourCC
-#[derive(Debug, Eq, PartialEq, PartialOrd, Hash, Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, PartialOrd, Hash, Clone, Copy, Default)]
 pub struct FourCC(pub TypeId);
 
 //------------------------------------------------------------------------------
@@ -36,15 +36,15 @@ impl From<&str> for FourCC {
 
 /// Creates a new `FourCC` instance from a four character byte sequence.
 impl From<&TypeId> for FourCC {
-    fn from(bytes: &TypeId) -> FourCC {
-        FourCC(*bytes)
+    fn from(bytes: &TypeId) -> Self {
+        Self(*bytes)
     }
 }
 
 /// Creates a new `FourCC` instance from a 32-bit unsigned integer.
 impl From<u32> for FourCC {
-    fn from(num: u32) -> FourCC {
-        FourCC(u32::to_be_bytes(num))
+    fn from(num: u32) -> Self {
+        Self(u32::to_be_bytes(num))
     }
 }
 
