@@ -1,9 +1,9 @@
 [package]
 name = "fourcc"
-version = "0.2.1"
-authors = ["StealthOfKing <sok@monocyte.host>", "tRuTrIx <trutrix@monocyte.host>"]
+version = "0.2.2"
+authors = ["StealthOfKing <sok@monocyte.host>"]
 edition = "2021"
-license = "All-Rights-Reserved"
-description = "Implementation of FourCC struct."
+license = "GPL-3.0"
+description = "Implementation of FourCC struct"
 
 [dependencies]
