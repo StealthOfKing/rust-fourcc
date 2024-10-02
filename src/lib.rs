@@ -13,7 +13,7 @@ pub type TypeId = [u8;4];
 /// `HashMap`.
 ///
 /// [FourCC]: https://en.wikipedia.org/wiki/FourCC
-#[derive(Debug, Eq, PartialEq, PartialOrd, Hash, Clone, Copy, Default)]
+#[derive(Eq, PartialEq, PartialOrd, Hash, Clone, Copy, Default)]
 pub struct FourCC(pub TypeId);
 
 //------------------------------------------------------------------------------
@@ -28,92 +28,84 @@ pub struct FourCC(pub TypeId);
 /// assert_eq!(rgba.0, 1380401729_u32.to_be_bytes());
 /// ```
 impl From<&str> for FourCC {
-    fn from(s: &str) -> Self {
-        let bytes = s.as_bytes();
-        FourCC(bytes[..4].try_into().unwrap())
-    }
+    fn from(s: &str) -> Self
+        { FourCC(s.as_bytes()[..4].try_into().unwrap()) }
 }
 
 /// Creates a new `FourCC` instance from a four character byte sequence.
 impl From<&TypeId> for FourCC {
-    fn from(bytes: &TypeId) -> Self {
-        Self(*bytes)
-    }
+    fn from(bytes: &TypeId) -> Self
+        { Self(*bytes) }
 }
 
 /// Creates a new `FourCC` instance from a 32-bit unsigned integer.
 impl From<u32> for FourCC {
-    fn from(num: u32) -> Self {
-        Self(u32::to_be_bytes(num))
-    }
+    fn from(num: u32) -> Self
+        { Self(u32::to_be_bytes(num)) }
 }
 
 //------------------------------------------------------------------------------
 
 impl From<FourCC> for TypeId {
-    fn from(fourcc: FourCC) -> TypeId {
-        fourcc.0
-    }
+    fn from(fourcc: FourCC) -> TypeId
+        { fourcc.0 }
 }
 
 impl From<FourCC> for u32 {
-    fn from(fourcc: FourCC) -> u32 {
-        u32::from_be_bytes(fourcc.0)
-    }
+    fn from(fourcc: FourCC) -> u32
+        { u32::from_be_bytes(fourcc.0) }
 }
 
 //------------------------------------------------------------------------------
 
 impl PartialEq<&TypeId> for FourCC {
-    fn eq(&self, other: &&TypeId) -> bool {
-        self.0.as_ref() == *other
-    }
+    fn eq(&self, other: &&TypeId) -> bool
+        { self.0.as_ref() == *other }
 }
 
 impl PartialEq<&str> for FourCC {
-    fn eq(&self, other: &&str) -> bool {
-        self == &FourCC::from(*other)
-    }
+    fn eq(&self, other: &&str) -> bool
+        { self == &FourCC::from(*other) }
 }
 
 impl PartialEq<u32> for FourCC {
-    fn eq(&self, other: &u32) -> bool {
-        self == &FourCC::from(*other)
-    }
+    fn eq(&self, other: &u32) -> bool
+        { self == &FourCC::from(*other) }
 }
 
 impl PartialOrd<&TypeId> for FourCC {
-    fn partial_cmp(&self, other: &&TypeId) -> Option<Ordering> {
-        self.0.partial_cmp(*other)
-    }
+    fn partial_cmp(&self, other: &&TypeId) -> Option<Ordering>
+        { self.0.partial_cmp(*other) }
 }
 
 impl PartialOrd<&str> for FourCC {
-    fn partial_cmp(&self, other: &&str) -> Option<Ordering> {
-        self.partial_cmp(&FourCC::from(*other))
-    }
+    fn partial_cmp(&self, other: &&str) -> Option<Ordering>
+        { self.partial_cmp(&FourCC::from(*other)) }
 }
 
 impl PartialOrd<u32> for FourCC {
-    fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
-        self.partial_cmp(&FourCC::from(*other))
-    }
+    fn partial_cmp(&self, other: &u32) -> Option<Ordering>
+        { self.partial_cmp(&FourCC::from(*other)) }
 }
 
 //------------------------------------------------------------------------------
 
 impl FourCC {
     /// Checks whether the `FourCC` value is a valid four character code.
-    pub fn is_valid(&self) -> bool {
-        self.0.iter().all(|&b| b.is_ascii_graphic())
-    }
+    pub fn is_valid(&self) -> bool
+        { self.0.iter().all(|&b| b.is_ascii_graphic()) }
 }
 
 // Format FourCC into human readable string.
 impl std::fmt::Display for FourCC {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}{}{}{}", self.0[0] as char, self.0[1] as char, self.0[2] as char, self.0[3] as char)
-    }
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result
+        { write!(f, "{}{}{}{}", self.0[0] as char, self.0[1] as char, self.0[2] as char, self.0[3] as char) }
+}
+
+// Format FourCC into quoted human readable string.
+impl std::fmt::Debug for FourCC {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result
+        { write!(f, "'{}{}{}{}'", self.0[0] as char, self.0[1] as char, self.0[2] as char, self.0[3] as char) }
 }
 
 //==============================================================================
